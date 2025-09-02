@@ -20,6 +20,7 @@ export interface PhotoMetadata {
   lensModel: string
   focalLength: number
   photographer: string
+  license: string
 }
 
 export interface Category {

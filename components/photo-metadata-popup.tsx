@@ -39,6 +39,12 @@ export function PhotoMetadataPopup({ metadata }: PhotoMetadataPopupProps) {
                   <span className="font-medium">{metadata.photographer}</span>
                 </div>
               )}
+              {metadata.license && (
+                <div className="grid grid-cols-2 gap-1">
+                  <span className="text-gray-600">License:</span>
+                  <span className="font-medium">{metadata.license}</span>
+                </div>
+              )}
               {metadata.cameraModel && (
                   <div className="grid grid-cols-2 gap-1">
                   <span className="text-gray-600">Camera:</span>
