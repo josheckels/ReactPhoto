@@ -47,6 +47,10 @@ export function apiFetch(endpoint: string, options?: RequestInit): Promise<Respo
   });
 }
 
+export function getOriginalS3ImageUrl(photo: Photo): string {
+    return `${FULL_SIZE_BASE_URL}${photo.filename}`;
+}
+
 export function getS3ImageUrl(photo: Photo, maxDimension: number): string {
 
   let bestResolution = photo.resolutions[0];

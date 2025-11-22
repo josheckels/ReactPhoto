@@ -3,6 +3,7 @@ export interface Photo {
   caption: string;
   height: number;
   width: number;
+  filename: string;
   resolutions: {
     filename: string;
     height: number;

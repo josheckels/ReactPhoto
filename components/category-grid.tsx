@@ -8,8 +8,6 @@ import {Category} from "@/utils/Types";
 export function CategoryGrid({ categories }: { categories: Category[] }) {
   const navigate = useNavigate()
 
-  categories.sort((a, b) => a.description.localeCompare(b.description));
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {categories.map((category : Category) => (

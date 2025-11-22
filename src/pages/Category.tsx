@@ -33,6 +33,10 @@ function CategoryPageInner() {
     }
   }
 
+  if (category && category.subcategories) {
+    category.subcategories.sort((a, b) => a.description.localeCompare(b.description));
+  }
+
   // Set the page title based on category description when available
   usePageTitle(category ? category.description : "Category");
 
@@ -113,16 +117,16 @@ function CategoryPageInner() {
   return (
     <main className="container mx-auto py-10 px-4">
       {/* Navigation breadcrumbs */}
-      <div className="flex flex-wrap items-center gap-2 mb-6">
+      <div className="flex flex-wrap items-center gap-2 mb-6 sticky top-0 bg-white z-10 py-4 border-b">
         <Link to="/" className="flex items-center text-primary hover:underline">
-          <Home className="h-4 w-4 mr-1" />
+          <Home className="h-4 w-4 mr-1"/>
           Home
         </Link>
-        {category.parentCategory && ( <>/</> ) }
-        <CategoryBreadcrumb category={category.parentCategory} />
+        {category.parentCategory && (<>/</>)}
+        <CategoryBreadcrumb category={category.parentCategory}/>
+        / <div className="font-bold">{category.description}</div>
       </div>
 
-      <h1 className="text-3xl font-bold mb-8">{category.description}</h1>
 
       {category.subcategories && category.subcategories.length > 0 && (
         <>
@@ -142,7 +146,7 @@ function CategoryPageInner() {
 
       {(!category.photos || category.photos.length === 0) &&
         (!category.subcategories || category.subcategories.length === 0) && (
-          <p className="text-muted-foreground">No photos or subcategories found.</p>
+          <p className="text-muted-foreground">Loading...</p>
         )}
     </main>
   )

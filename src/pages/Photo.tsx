@@ -5,7 +5,7 @@ import { useCategories } from "@/src/context/CategoryProvider";
 
 import { Button } from "@/components/button"
 import { PhotoMetadataPopup } from "@/components/photo-metadata-popup"
-import { apiFetch, getS3ImageUrl, getPhotoUrl, getCategoryUrl } from "@/utils/urlHelpers";
+import {apiFetch, getS3ImageUrl, getPhotoUrl, getCategoryUrl, getOriginalS3ImageUrl} from "@/utils/urlHelpers";
 import { Photo } from "@/utils/Types";
 import CategoryBreadcrumb from "@/components/recursive_category";
 import { usePageTitle } from "@/hooks/use-page-title";
@@ -13,8 +13,6 @@ import { usePageTitle } from "@/hooks/use-page-title";
 function PhotoDetailInner() {
   const navigate = useNavigate();
   const params = useParams();
-  // Use a ref to track if we've already started fetching for this photoId/categoryId combination
-  const fetchStartedRef = useRef<Record<string, boolean>>({});
 
   const { categories } = useCategories();
 
@@ -50,17 +48,6 @@ function PhotoDetailInner() {
         return
       }
       
-      // Create a unique key for this photoId/categoryId combination
-      const fetchKey = `photo_${photoId}_category_${categoryId || 'none'}`;
-      
-      // Prevent duplicate fetches caused by StrictMode double-rendering
-      if (fetchStartedRef.current[fetchKey]) {
-        return;
-      }
-      
-      // Mark this combination as being fetched
-      fetchStartedRef.current[fetchKey] = true;
-
       try {
         setLoading(true)
 
@@ -349,11 +336,32 @@ function PhotoDetailInner() {
                 variant="ghost"
                 className="flex items-center gap-1 text-gray-600 hover:text-primary transition-colors p-0"
                 onClick={async () => {
-                  const url = getS3ImageUrl(currentPhoto, 50000);
-                  const req = new XMLHttpRequest();
-                  req.open('GET', url, true);
-                  req.setRequestHeader('Content-Disposition', 'attachment');
-                  req.send();
+                  try {
+                    const url = getOriginalS3ImageUrl(currentPhoto);
+                    // Fetch as a Blob so we can force a browser download
+                    const res = await fetch(url, { credentials: 'omit' });
+                    if (!res.ok) {
+                      throw new Error(`Failed to download (${res.status})`);
+                    }
+                    const blob = await res.blob();
+
+                    // Derive a reasonable filename from the URL
+                    const urlObj = new URL(url);
+
+                    const objectUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = objectUrl;
+                    a.download = currentPhoto.filename; // `download` attribute triggers save dialog
+                    document.body.appendChild(a);
+                    a.click();
+                    // Cleanup
+                    a.remove();
+                    setTimeout(() => URL.revokeObjectURL(objectUrl), 0);
+                  } catch (e) {
+                    console.error('Download failed:', e);
+                    // Optional: surface a lightweight alert; replace with toast if available
+                    alert('Sorry, the download failed. Please try again.');
+                  }
                 }}
               >
                 <Download className="h-5 w-5"/>

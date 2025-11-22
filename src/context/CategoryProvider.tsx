@@ -54,9 +54,11 @@ export const CategoryProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           }
         });
 
-        rootCategories.sort((a, b) => a.description.localeCompare(b.description));
-        const newestCats = Object.values(prepped)
-            .sort((a, b) => b.createdOn.getTime() - a.createdOn.getTime())
+        rootCategories.sort((a, b) => b.id - a.id);
+
+        const noRootCategories = Object.values(prepped).filter((c) => c.parentCategoryId);
+        const newestCats = noRootCategories
+            .sort((a, b) => b.id - a.id)
             .slice(0, 8);
 
         setCategories(prepped)
