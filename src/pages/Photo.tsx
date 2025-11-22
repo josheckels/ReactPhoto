@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState, useCallback, useRef } from "react"
+import React, { Suspense, useEffect, useState, useCallback } from "react"
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { ChevronLeft, ChevronRight, Home, Undo, Tag, Download } from "lucide-react"
 import { useCategories } from "@/src/context/CategoryProvider";
@@ -344,9 +344,6 @@ function PhotoDetailInner() {
                       throw new Error(`Failed to download (${res.status})`);
                     }
                     const blob = await res.blob();
-
-                    // Derive a reasonable filename from the URL
-                    const urlObj = new URL(url);
 
                     const objectUrl = URL.createObjectURL(blob);
                     const a = document.createElement('a');
