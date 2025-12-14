@@ -35,7 +35,7 @@ function PhotoDetailInner() {
   const [error, setError] = useState<string | null>(null)
 
   // Set the page title based on photo caption when available
-  usePageTitle(currentPhoto ? currentPhoto.caption : "Photo Detail");
+  usePageTitle(currentPhoto ? (currentPhoto.caption || '[Uncaptioned]') : "Photo Detail");
 
   // Simple swipe state
   const [touchStartX, setTouchStartX] = useState<number | null>(null)
