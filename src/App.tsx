@@ -6,6 +6,7 @@ import HomePage from '@/src/pages/Home'
 import CategoriesPage from '@/src/pages/Categories'
 import CategoryPage from '@/src/pages/Category'
 import PhotoPage from '@/src/pages/Photo'
+import FilterResultsPage from '@/src/pages/FilterResults'
 import NotFoundPage from '@/src/pages/NotFound'
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/categoryList" element={<CategoriesPage />} />
           <Route path="/category/:categoryId/:photoId" element={<PhotoPage />} />
           <Route path="/category/:categoryId" element={<CategoryPage />} />
+          <Route path="/filter" element={<FilterResultsPage />} />
           <Route path="/photo/:photoId" element={<PhotoPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

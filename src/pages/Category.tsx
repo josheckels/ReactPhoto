@@ -35,7 +35,7 @@ function CategoryPageInner() {
     : []
 
   // Set the page title based on category description when available
-  usePageTitle(category ? category.description : "Category");
+usePageTitle(category ? category.description : "Category");
 
   useEffect(() => {
     if (!categoryId) return;

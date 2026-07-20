@@ -6,7 +6,7 @@ import {Photo} from "@/utils/Types";
 import React from "react";
 
 
-export function PhotoGrid({ photos, categoryId }: { photos: Photo[]; categoryId: number }) {
+export function PhotoGrid({ photos, categoryId }: { photos: Photo[]; categoryId?: number }) {
   const navigate = useNavigate()
 
   return (

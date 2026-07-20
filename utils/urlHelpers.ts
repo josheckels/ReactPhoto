@@ -20,6 +20,9 @@ const RESIZED_REGEX = /\d+-\d+x\d+.*/;
  * @returns - URL string with path parameters
  */
 export function getPhotoUrl(photoId: number, categoryId?: number | null): string {
+  if (categoryId === null || categoryId === undefined) {
+    return `/photo/${photoId}`;
+  }
   return `/category/${categoryId}/${photoId}`;
 }
 
@@ -30,6 +33,15 @@ export function getPhotoUrl(photoId: number, categoryId?: number | null): string
  */
 export function getCategoryUrl(categoryId: number | string): string {
   return `/category/${categoryId}`;
+}
+
+/**
+ * Generate a URL for the multi-category filter results page.
+ * @param categoryIds - The IDs of the selected categories
+ * @returns - URL string with the selected category ids as a query parameter
+ */
+export function getFilterUrl(categoryIds: number[]): string {
+  return `/filter?cats=${categoryIds.join(",")}`;
 }
 
 /**
