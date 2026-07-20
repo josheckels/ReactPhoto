@@ -1,21 +1,19 @@
 "use client"
 
-import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import {getS3ImageUrl, getPhotoUrl} from "@/utils/urlHelpers";
 import {Photo} from "@/utils/Types";
 import React from "react";
 
 
 export function PhotoGrid({ photos, categoryId }: { photos: Photo[]; categoryId?: number }) {
-  const navigate = useNavigate()
-
   return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {photos?.map((photo: Photo) => (
-            <div
+            <Link
                 key={photo.id}
-                className="border rounded-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer grayMatte"
-                onClick={() => navigate(getPhotoUrl(photo.id, categoryId))}
+                to={getPhotoUrl(photo.id, categoryId)}
+                className="border rounded-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer grayMatte block"
             >
               <div className="flex flex-col justify-between h-full">
                 {/* Fixed aspect ratio container */}
@@ -29,7 +27,7 @@ export function PhotoGrid({ photos, categoryId }: { photos: Photo[]; categoryId?
                 </div>
                 <div className="p-2 h-[3rem] overflow-hidden caption">{photo.caption}</div>
               </div>
-            </div>
+            </Link>
         ))}
       </div>
   )

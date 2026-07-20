@@ -1,20 +1,18 @@
 "use client"
 
-import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import {getCategoryUrl, getS3ImageUrl} from "@/utils/urlHelpers";
 import {Category} from "@/utils/Types";
 // Helper function to find any category by ID (top-level or subcategory)
 // Get photos for a specific category
 export function CategoryGrid({ categories }: { categories: Category[] }) {
-  const navigate = useNavigate()
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {categories.map((category : Category) => (
-        <div
+        <Link
           key={category.id}
-          className="border rounded-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer grayMatte"
-          onClick={() => navigate(getCategoryUrl(category.id))}
+          to={getCategoryUrl(category.id)}
+          className="border rounded-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer grayMatte block"
         >
           <div className="flex flex-col justify-between h-full">
             {/* Fixed aspect ratio container */}
@@ -29,7 +27,7 @@ export function CategoryGrid({ categories }: { categories: Category[] }) {
             {/* Fixed height caption container */}
             <div className="p-2 h-[3rem] overflow-hidden font-bold caption">{category.description}</div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   )
